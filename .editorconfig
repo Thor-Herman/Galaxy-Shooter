@@ -3,3 +3,4 @@ root=true
 [*.cs]
 dotnet_diagnostic.IDE0051.severity = none # For unused method 
 dotnet_diagnostic.IDE0044.severity = none # Make variable readonly
+dotnet_diagnostic.IDE0090.severity = none # Simplify new expression
