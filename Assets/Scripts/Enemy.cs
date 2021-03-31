@@ -9,18 +9,24 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _animator;
     private BoxCollider2D _boxCollider;
+    [SerializeField]
+    private AudioClip _audioClip;
+    private AudioSource _audioSource;
     private bool _deathAnimPlaying = false;
     private const float _animationDuration = 2.633f;
-    
+
 
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _boxCollider = GetComponent<BoxCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
         if (_player == null) Debug.LogError("Player is null");
         if (_animator == null) Debug.LogError("Animator is null");
         if (_boxCollider == null) Debug.LogError("BoxCollider is null");
+        if (_audioClip == null) Debug.LogError("AudioSource is null");
+        else _audioSource.clip = _audioClip;
     }
 
     // Update is called once per frame
@@ -30,7 +36,7 @@ public class Enemy : MonoBehaviour
         bool hasLeftGameFrame = transform.position.y < -5f;
         if (hasLeftGameFrame)
         {
-            if (_deathAnimPlaying) Destroy(this.gameObject); // Finish animation early. 
+            if (_deathAnimPlaying) return; // Don't respawn 
             float newXPos = Random.Range(-8.5f, 8.5f);
             transform.position = new Vector3(newXPos, 7, 0);
         }
@@ -55,6 +61,7 @@ public class Enemy : MonoBehaviour
     void OnDeath()
     {
         _animator.SetTrigger("OnEnemyDeath");
+        _audioSource.Play();
         _boxCollider.enabled = false;
         _deathAnimPlaying = true;
         Destroy(this.gameObject, _animationDuration);

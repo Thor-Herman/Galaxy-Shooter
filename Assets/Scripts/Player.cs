@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private bool _tripleShotActive = false;
     private bool _shieldActive = false;
     [SerializeField]
-    private GameObject _tripleShotPrefab;
+    private GameObject _tripleShotPrefab, _explosionPrefab;
     private GameObject _shieldVisualizer;
     [SerializeField]
     private int _score;
@@ -109,6 +109,7 @@ public class Player : MonoBehaviour
                     else _rightEngineFire.SetActive(true);
                     break;
                 case 0:
+                    Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                     Destroy(this.gameObject);
                     _spawnManager.OnPlayerDeath();
                     _gameManager.GameOver();
