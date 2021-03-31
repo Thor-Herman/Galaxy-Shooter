@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     private float _maxWaitTimePowerUp;
     private bool _stopSpawning = false;
 
-    void Start()
+    public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
@@ -24,6 +24,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3.0f);
         while (!_stopSpawning)
         {
             Vector3 posToSpawn = GetPosToSpawn();
@@ -35,6 +36,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerUpRoutine()
     {
+        yield return new WaitForSeconds(3.0f);
         while (!_stopSpawning)
         {
             Vector3 posToSpawn = GetPosToSpawn();
