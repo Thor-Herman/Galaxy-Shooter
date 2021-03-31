@@ -12,7 +12,9 @@ public class Player : MonoBehaviour
     private float _nextFire = 0.0f;
     [SerializeField]
     private int _lives = 3;
-
+    private bool _rightEngineDamaged = false;
+    private GameObject _rightEngineFire;
+    private GameObject _leftEngineFire;
     [SerializeField]
     private GameObject _laserPrefab;
     private SpawnManager _spawnManager;
@@ -35,6 +37,8 @@ public class Player : MonoBehaviour
         _shieldVisualizer = transform.Find("PlayerShield").gameObject;
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _rightEngineFire = transform.Find("FireRight").gameObject;
+        _leftEngineFire = transform.Find("FireLeft").gameObject;
         if (_spawnManager == null) Debug.LogError("Spawn manager is null");
         if (_shieldVisualizer == null) Debug.LogError("Shields are null");
         if (_uiManager == null) Debug.LogError("UIManager is null");
@@ -86,11 +90,24 @@ public class Player : MonoBehaviour
         {
             _lives -= noOfLives;
             _uiManager.UpdateLives(_lives);
-            if (_lives < 1)
+            switch (_lives)
             {
-                Destroy(this.gameObject);
-                _spawnManager.OnPlayerDeath();
-                _gameManager.GameOver();
+                case 2:
+                        int engine = Random.Range(0, 2);
+                        _rightEngineDamaged = engine == 1;
+                        if (_rightEngineDamaged) _rightEngineFire.SetActive(true);
+                        else _leftEngineFire.SetActive(true);
+                        break;
+                case 1:
+                        if (_rightEngineDamaged) _leftEngineFire.SetActive(true);
+                        else _rightEngineFire.SetActive(true);
+                        break;
+                case 0:
+                        Destroy(this.gameObject);
+                        _spawnManager.OnPlayerDeath();
+                        _gameManager.GameOver();
+                        break;
+                default: break;
             }
         }
         else
