@@ -13,8 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private bool _rightEngineDamaged = false;
-    private GameObject _rightEngineFire;
-    private GameObject _leftEngineFire;
+    private GameObject _rightEngineFire, _leftEngineFire;
     [SerializeField]
     private GameObject _laserPrefab;
     private SpawnManager _spawnManager;
@@ -27,6 +26,9 @@ public class Player : MonoBehaviour
     private int _score;
     private UIManager _uiManager;
     private GameManager _gameManager;
+    [SerializeField]
+    private AudioClip _laserShotAudioClip;
+    private AudioSource _laserShotAudioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -37,12 +39,15 @@ public class Player : MonoBehaviour
         _shieldVisualizer = transform.Find("PlayerShield").gameObject;
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _laserShotAudioSource = GetComponent<AudioSource>();
         _rightEngineFire = transform.Find("FireRight").gameObject;
         _leftEngineFire = transform.Find("FireLeft").gameObject;
         if (_spawnManager == null) Debug.LogError("Spawn manager is null");
         if (_shieldVisualizer == null) Debug.LogError("Shields are null");
         if (_uiManager == null) Debug.LogError("UIManager is null");
         if (_gameManager == null) Debug.LogError("GameManager is null");
+        if (_laserShotAudioSource == null) Debug.LogError("Audio is null");
+        else _laserShotAudioSource.clip = _laserShotAudioClip;
     }
 
     // Update is called once per frame
@@ -82,6 +87,7 @@ public class Player : MonoBehaviour
         _nextFire = Time.time + _fireRate;
         if (_tripleShotActive) Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         else Instantiate(_laserPrefab, transform.position + new Vector3(0, _laserOffset, 0), Quaternion.identity);
+        _laserShotAudioSource.Play();
     }
 
     public void DamagePlayer(int noOfLives)
@@ -93,20 +99,20 @@ public class Player : MonoBehaviour
             switch (_lives)
             {
                 case 2:
-                        int engine = Random.Range(0, 2);
-                        _rightEngineDamaged = engine == 1;
-                        if (_rightEngineDamaged) _rightEngineFire.SetActive(true);
-                        else _leftEngineFire.SetActive(true);
-                        break;
+                    int engine = Random.Range(0, 2);
+                    _rightEngineDamaged = engine == 1;
+                    if (_rightEngineDamaged) _rightEngineFire.SetActive(true);
+                    else _leftEngineFire.SetActive(true);
+                    break;
                 case 1:
-                        if (_rightEngineDamaged) _leftEngineFire.SetActive(true);
-                        else _rightEngineFire.SetActive(true);
-                        break;
+                    if (_rightEngineDamaged) _leftEngineFire.SetActive(true);
+                    else _rightEngineFire.SetActive(true);
+                    break;
                 case 0:
-                        Destroy(this.gameObject);
-                        _spawnManager.OnPlayerDeath();
-                        _gameManager.GameOver();
-                        break;
+                    Destroy(this.gameObject);
+                    _spawnManager.OnPlayerDeath();
+                    _gameManager.GameOver();
+                    break;
                 default: break;
             }
         }

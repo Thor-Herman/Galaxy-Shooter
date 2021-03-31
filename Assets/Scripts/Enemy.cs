@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     private BoxCollider2D _boxCollider;
     private bool _deathAnimPlaying = false;
     private const float _animationDuration = 2.633f;
-
+    
 
     void Start()
     {
