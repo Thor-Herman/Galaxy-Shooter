@@ -8,15 +8,19 @@ public class Enemy : MonoBehaviour
     private float _speed = 4.0f;
     private Player _player;
     private Animator _animator;
+    private BoxCollider2D _boxCollider;
     private bool _deathAnimPlaying = false;
     private const float _animationDuration = 2.633f;
+
 
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _animator = GetComponent<Animator>();
+        _boxCollider = GetComponent<BoxCollider2D>();
         if (_player == null) Debug.LogError("Player is null");
         if (_animator == null) Debug.LogError("Animator is null");
+        if (_boxCollider == null) Debug.LogError("BoxCollider is null");
     }
 
     // Update is called once per frame
@@ -50,9 +54,9 @@ public class Enemy : MonoBehaviour
 
     void OnDeath()
     {
-        GetComponent<BoxCollider2D>().enabled = false;
         _animator.SetTrigger("OnEnemyDeath");
+        _boxCollider.enabled = false;
         _deathAnimPlaying = true;
-        Destroy(this.gameObject, _animationDuration); 
+        Destroy(this.gameObject, _animationDuration);
     }
 }
