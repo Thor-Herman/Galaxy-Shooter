@@ -8,6 +8,12 @@ public class PowerUp : MonoBehaviour
     private float _speed = 3.0f;
     [SerializeField]
     private int _powerUpId; // 0 = TripleShot, 1 = Speed, 2 = Shields
+    [SerializeField]
+    private AudioClip _audioClip;
+
+    void Start() {
+        if (_audioClip == null) Debug.LogError("Audio Clip is null");
+    }
 
     void Update()
     {
@@ -37,6 +43,7 @@ public class PowerUp : MonoBehaviour
                         break;
                 }
             }
+            AudioSource.PlayClipAtPoint(_audioClip, Camera.main.transform.position, 1f);
             Destroy(this.gameObject);
         }
     }
