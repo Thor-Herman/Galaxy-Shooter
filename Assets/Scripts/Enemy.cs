@@ -6,12 +6,15 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 4.0f;
+    private float _laserOffset = -0.8f;
     private Player _player;
     private Animator _animator;
     private BoxCollider2D _boxCollider;
     [SerializeField]
     private AudioClip _audioClip;
     private AudioSource _audioSource;
+    [SerializeField]
+    private GameObject _laserPrefab;
     private bool _deathAnimPlaying = false;
     private const float _animationDuration = 2.633f;
 
@@ -27,6 +30,7 @@ public class Enemy : MonoBehaviour
         if (_boxCollider == null) Debug.LogError("BoxCollider is null");
         if (_audioClip == null) Debug.LogError("AudioSource is null");
         else _audioSource.clip = _audioClip;
+        StartCoroutine(FireLaser());
     }
 
     // Update is called once per frame
@@ -39,6 +43,14 @@ public class Enemy : MonoBehaviour
             if (_deathAnimPlaying) return; // Don't respawn 
             float newXPos = Random.Range(-8.5f, 8.5f);
             transform.position = new Vector3(newXPos, 7, 0);
+        }
+    }
+
+    IEnumerator FireLaser() {
+        while (!_deathAnimPlaying) {
+            float waitTime = Random.Range(0.5f, 7.0f);
+            yield return new WaitForSeconds(waitTime);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, _laserOffset, 0), Quaternion.identity);
         }
     }
 
