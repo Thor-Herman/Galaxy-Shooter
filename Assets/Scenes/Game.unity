@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
+  _yLimit: -3.8
   _fireRate: 0.15
   _lives: 3
   _laserPrefab: {fileID: 5579557757180031752, guid: 38c61c4f1ee1c1d49bd24b83d1f90b6f,
@@ -656,8 +657,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792790465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.142, y: 1.019, z: 0}
-  m_LocalScale: {x: 1.0981057, y: 1.0981057, z: 1.0981057}
+  m_LocalPosition: {x: 0, y: 2.814, z: 0}
+  m_LocalScale: {x: 1.430602, y: 1.430602, z: 1.430602}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -714,7 +715,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -740,7 +741,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864735055}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 2.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

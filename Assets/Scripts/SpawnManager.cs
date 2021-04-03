@@ -51,7 +51,7 @@ public class SpawnManager : MonoBehaviour
 
     Vector3 GetPosToSpawn()
     {
-        return new Vector3(Random.Range(-GameConstants.ENEMY_X_LIMIT, GameConstants.ENEMY_X_LIMIT), 7, 0);
+        return new Vector3(Random.Range(-GameConstants.ENEMY_X_LIMIT, GameConstants.ENEMY_X_LIMIT), GameConstants.WINDOW_TOP_POS, 0);
     }
 
     public void OnPlayerDeath()
