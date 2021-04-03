@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameConstants;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3.5f;
+    private float _speed = 3.5f, _yLimit = -3.8f;
     private float _laserOffset = 0.8f;
     [SerializeField]
     private float _fireRate = 0.15f;
@@ -75,11 +76,11 @@ public class Player : MonoBehaviour
         // ALTERNATIVT: newYPos = Mathf.Clamp(yPos, -3.8f, 0);
 
         if (yPos >= 0) newYPos = 0;
-        else if (yPos <= -3.8f) newYPos = -3.8f;
+        else if (yPos <= _yLimit) newYPos = _yLimit;
         transform.position = new Vector3(xPos, newYPos, zPos);
 
-        if (xPos > 11) transform.position = new Vector3(-11, newYPos, zPos);
-        else if (xPos < -11) transform.position = new Vector3(11, newYPos, zPos);
+        if (xPos > GameConstants.WINDOW_HALF_WIDTH) transform.position = new Vector3(-GameConstants.WINDOW_HALF_WIDTH, newYPos, zPos);
+        else if (xPos < -GameConstants.WINDOW_HALF_WIDTH) transform.position = new Vector3(GameConstants.WINDOW_HALF_WIDTH, newYPos, zPos);
     }
 
     void FireLaser()

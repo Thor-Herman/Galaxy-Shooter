@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameConstants;
 
 public class Explosion : MonoBehaviour
 {
-    private const float _animationDuration = 2.633f;
-    // Start is called before the first frame update
     void Start()
     {
-        Destroy(this.gameObject, _animationDuration);
+        Destroy(this.gameObject, GameConstants.ANIMATION_DURATION);
     }
 }

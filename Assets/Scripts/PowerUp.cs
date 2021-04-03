@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameConstants;
 
 public class PowerUp : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PowerUp : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.down * Time.deltaTime * _speed);
-        if (transform.position.y < -5f)
+        if (transform.position.y < GameConstants.WINDOW_BOTTOM_POS)
         {
             Destroy(this.gameObject);
         }

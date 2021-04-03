@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameConstants;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class SpawnManager : MonoBehaviour
 
     Vector3 GetPosToSpawn()
     {
-        return new Vector3(Random.Range(-8.5f, 8.5f), 7, 0);
+        return new Vector3(Random.Range(-GameConstants.ENEMY_X_LIMIT, GameConstants.ENEMY_X_LIMIT), 7, 0);
     }
 
     public void OnPlayerDeath()

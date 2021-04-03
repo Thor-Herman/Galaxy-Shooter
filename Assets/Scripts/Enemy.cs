@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameConstants;
 
 public class Enemy : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
     private bool _deathAnimPlaying = false;
-    private const float _animationDuration = 2.633f;
 
 
     void Start()
@@ -37,12 +37,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.down * Time.deltaTime * _speed);
-        bool hasLeftGameFrame = transform.position.y < -5f;
+        bool hasLeftGameFrame = transform.position.y < GameConstants.WINDOW_BOTTOM_POS;
         if (hasLeftGameFrame)
         {
             if (_deathAnimPlaying) return; // Don't respawn 
-            float newXPos = Random.Range(-8.5f, 8.5f);
-            transform.position = new Vector3(newXPos, 7, 0);
+            float newXPos = Random.Range(-GameConstants.ENEMY_X_LIMIT, GameConstants.ENEMY_X_LIMIT);
+            transform.position = new Vector3(newXPos, GameConstants.WINDOW_TOP_POS, 0);
         }
     }
 
@@ -77,6 +77,6 @@ public class Enemy : MonoBehaviour
         _audioSource.Play();
         _boxCollider.enabled = false;
         _deathAnimPlaying = true;
-        Destroy(this.gameObject, _animationDuration);
+        Destroy(this.gameObject, GameConstants.ANIMATION_DURATION);
     }
 }
