@@ -51,9 +51,10 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator IncreaseDifficultyRoutine() {
         yield return new WaitForSeconds(_spawnRoutinesDelay);
-        while (_enemyRespawnTime >= 0.5f && !_stopSpawning) {
+        while (_enemyRespawnTime == 0.5f && !_stopSpawning) {
             yield return new WaitForSeconds(7);
             _enemyRespawnTime -= 0.5f;
+            if (_enemyRespawnTime < 0.5f) _enemyRespawnTime = 0.5f;
         }   
     }
 
