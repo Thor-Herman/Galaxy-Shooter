@@ -50,7 +50,8 @@ public class Enemy : MonoBehaviour
         while (!_deathAnimPlaying) {
             float waitTime = Random.Range(0.5f, 7.0f);
             yield return new WaitForSeconds(waitTime);
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, _laserOffset, 0), Quaternion.identity);
+            GameObject laser = Instantiate(_laserPrefab, transform.position + new Vector3(0, _laserOffset, 0), Quaternion.identity);
+            laser.transform.parent = transform.parent;
         }
     }
 
