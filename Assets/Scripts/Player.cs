@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     private GameObject _rightEngineFire, _leftEngineFire;
     [SerializeField]
     private GameObject _laserPrefab;
-    private SpawnManager _spawnManager;
     private bool _tripleShotActive = false, _shieldActive = false;
     [SerializeField]
     private GameObject _tripleShotPrefab, _explosionPrefab;
@@ -31,15 +30,12 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Current pos = Start pos
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _shieldVisualizer = transform.Find("PlayerShield").gameObject;
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _laserShotAudioSource = GetComponent<AudioSource>();
         _rightEngineFire = transform.Find("FireRight").gameObject;
         _leftEngineFire = transform.Find("FireLeft").gameObject;
-        if (_spawnManager == null) Debug.LogError("Spawn manager is null");
         if (_shieldVisualizer == null) Debug.LogError("Shields are null");
         if (_uiManager == null) Debug.LogError("UIManager is null");
         if (_gameManager == null) Debug.LogError("GameManager is null");
@@ -110,7 +106,6 @@ public class Player : MonoBehaviour
                 case 0:
                     Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
                     Destroy(this.gameObject);
-                    _spawnManager.OnPlayerDeath();
                     _gameManager.GameOver();
                     break;
                 default: break;

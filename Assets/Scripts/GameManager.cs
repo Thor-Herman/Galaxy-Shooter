@@ -9,11 +9,16 @@ public class GameManager : MonoBehaviour
     private bool _isGameOver = false;
     [SerializeField]
     private bool _isCoopMode;
+    private int _timesGameOverHasBeenCalled = 0;
     private UIManager _uiManager;
+    private SpawnManager _spawnManager;
 
-    void Start() {
+    void Start()
+    {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         if (_uiManager == null) Debug.LogError("UIManager is null");
+        if (_spawnManager == null) Debug.LogError("Spawn manager is null");
     }
 
     // Update is called once per frame
@@ -25,8 +30,13 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        _isGameOver = true;
-        _uiManager.OnGameOver();
+        if ((_isCoopMode && _timesGameOverHasBeenCalled == 1) || (!_isCoopMode))
+        {
+            _isGameOver = true;
+            _uiManager.OnGameOver();
+            _spawnManager.OnPlayerDeath();
+        }
+        _timesGameOverHasBeenCalled++;
     }
 
     void RestartLevel()
@@ -34,5 +44,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public bool GetIsCoopMode() {return _isCoopMode;}
+    public bool GetIsCoopMode() { return _isCoopMode; }
 }
