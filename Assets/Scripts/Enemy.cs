@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4.0f;
     private float _laserOffset = -0.8f;
-    private Player _player;
     private Animator _animator;
     private BoxCollider2D _boxCollider;
     [SerializeField]
@@ -18,14 +17,11 @@ public class Enemy : MonoBehaviour
     private GameObject _laserPrefab;
     private bool _deathAnimPlaying = false;
 
-
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _boxCollider = GetComponent<BoxCollider2D>();
         _audioSource = GetComponent<AudioSource>();
-        if (_player == null) Debug.LogError("Player is null");
         if (_animator == null) Debug.LogError("Animator is null");
         if (_boxCollider == null) Debug.LogError("BoxCollider is null");
         if (_audioClip == null) Debug.LogError("AudioSource is null");
@@ -59,13 +55,15 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (_player != null) _player.DamagePlayer(1);
+            Player player = other.transform.GetComponent<Player>();
+            if (player != null) player.DamagePlayer(1);
             _animator.SetTrigger("OnEnemyDeath");
             OnDeath();
         }
         else if (other.gameObject.CompareTag("Laser"))
         {
-            if (_player != null) _player.IncrementScore(10);
+            Player player = GameObject.Find("Player1").GetComponent<Player>(); // Per now, it only keeps track of one score
+            if (player != null) player.IncrementScore(10);
             OnDeath();
             Destroy(other.gameObject);
         }

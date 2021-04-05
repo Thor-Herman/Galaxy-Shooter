@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         if (!_shieldActive)
         {
             _lives -= noOfLives;
-            _uiManager.UpdateLives(_lives);
+            _uiManager.UpdateLives(_lives, _isPlayerOne);
             switch (_lives)
             {
                 case 2:

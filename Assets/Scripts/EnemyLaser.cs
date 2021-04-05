@@ -5,8 +5,6 @@ using static GameConstants;
 
 public class EnemyLaser : Laser
 {
-    private Player _player;
-
     void Start() {
         _speed = -8.0f;
     }
@@ -15,7 +13,7 @@ public class EnemyLaser : Laser
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Player player = GameObject.Find("Player").GetComponent<Player>();
+            Player player = other.transform.GetComponent<Player>();
             if (player != null) player.DamagePlayer(1);
             Destroy(transform.parent.gameObject);
             Destroy(gameObject);

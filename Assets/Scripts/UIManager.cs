@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     private Text _scoreText;
     private Text _gameOverText;
     private Text _restartText;
-    private Image _livesDisplay;
+    private Image _livesDisplayP1, _livesDisplayP2;
     [SerializeField]
     private Sprite[] _livesSprites = new Sprite[4];
 
@@ -16,15 +16,26 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _scoreText = transform.Find("ScoreText").GetComponent<Text>();
-        _livesDisplay = transform.Find("LivesDisplay").GetComponent<Image>();
+        _livesDisplayP1 = transform.Find("LivesDisplayP1").GetComponent<Image>();
+        CheckForCoop();
         _gameOverText = transform.Find("GameOverText").GetComponent<Text>();
         _restartText = transform.Find("RestartText").GetComponent<Text>();
         if (_scoreText == null) Debug.LogError("ScoreText is null");
-        if (_livesDisplay == null) Debug.LogError("LivesDisplay is null");
+        if (_livesDisplayP1 == null) Debug.LogError("LivesDisplay is null");
         if (_gameOverText == null) Debug.LogError("GameOverText is null");
         if (_restartText == null) Debug.LogError("RestartText is null");
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
+    }
+
+    void CheckForCoop() {
+        GameManager _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (_gameManager == null) Debug.LogError("GameManager is null");
+        if (_gameManager.GetIsCoopMode())
+        {
+            _livesDisplayP2 = transform.Find("LivesDisplayP2").GetComponent<Image>();
+            if (_livesDisplayP2 == null) Debug.LogError("Lives Display P2 is null");
+        }
     }
 
     public void UpdateScore(int score)
@@ -32,13 +43,14 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + score;
     }
 
-    public void UpdateLives(int lives)
+    public void UpdateLives(int lives, bool isPlayerOne = true)
     {
         if (!(0 <= lives && lives <= 3))
         {
             Debug.LogError("Lives must be between 0 and 3");
         }
-        this._livesDisplay.sprite = _livesSprites[lives];
+        if (isPlayerOne) _livesDisplayP1.sprite = _livesSprites[lives];
+        else _livesDisplayP2.sprite = _livesSprites[lives];
     }
 
     public void OnGameOver()
