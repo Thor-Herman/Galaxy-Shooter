@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 3.5f, _yLimit = -3.8f, _fireRate = 0.15f;
     [SerializeField]
-    private int _lives = 3, _score;
+    private int _lives = 3;
     [SerializeField]
     private bool _isPlayerOne = true;
     private float _laserOffset = 0.8f;
@@ -151,11 +151,5 @@ public class Player : MonoBehaviour
     {
         this._shieldActive = false;
         _shieldVisualizer.SetActive(false);
-    }
-
-    public void IncrementScore(int value)
-    {
-        this._score += value;
-        _uiManager.UpdateScore(this._score);
     }
 }

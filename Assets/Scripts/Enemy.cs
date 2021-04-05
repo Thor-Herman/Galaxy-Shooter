@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private AudioClip _audioClip;
     private AudioSource _audioSource;
+    private UIManager _uiManager;
     [SerializeField]
     private GameObject _laserPrefab;
     private bool _deathAnimPlaying = false;
@@ -22,10 +23,12 @@ public class Enemy : MonoBehaviour
         _animator = GetComponent<Animator>();
         _boxCollider = GetComponent<BoxCollider2D>();
         _audioSource = GetComponent<AudioSource>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_animator == null) Debug.LogError("Animator is null");
         if (_boxCollider == null) Debug.LogError("BoxCollider is null");
         if (_audioClip == null) Debug.LogError("AudioSource is null");
         else _audioSource.clip = _audioClip;
+        if (_uiManager == null) Debug.LogError("UIManager is null");
         StartCoroutine(FireLaser());
     }
 
@@ -62,8 +65,7 @@ public class Enemy : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Laser"))
         {
-            Player player = GameObject.Find("Player1").GetComponent<Player>(); // Per now, it only keeps track of one score
-            if (player != null) player.IncrementScore(10);
+            _uiManager.AddScore(10);
             OnDeath();
             Destroy(other.gameObject);
         }

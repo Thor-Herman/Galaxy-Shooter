@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    private int _score;
     private Text _scoreText;
     private Text _gameOverText;
     private Text _restartText;
@@ -38,9 +39,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int score)
+    public void AddScore(int additionalScore)
     {
-        _scoreText.text = "Score: " + score;
+        _score += additionalScore;
+        _scoreText.text = "Score: " + _score;
     }
 
     public void UpdateLives(int lives, bool isPlayerOne = true)
