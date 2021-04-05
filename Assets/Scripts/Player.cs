@@ -6,25 +6,22 @@ using static GameConstants;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3.5f, _yLimit = -3.8f;
+    private float _speed = 3.5f, _yLimit = -3.8f, _fireRate = 0.15f;
+    [SerializeField]
+    private int _lives = 3, _score;
+    [SerializeField]
+    private bool _isPlayerOne = true;
     private float _laserOffset = 0.8f;
-    [SerializeField]
-    private float _fireRate = 0.15f;
     private float _nextFire = 0.0f;
-    [SerializeField]
-    private int _lives = 3;
     private bool _rightEngineDamaged = false;
     private GameObject _rightEngineFire, _leftEngineFire;
     [SerializeField]
     private GameObject _laserPrefab;
     private SpawnManager _spawnManager;
-    private bool _tripleShotActive = false;
-    private bool _shieldActive = false;
+    private bool _tripleShotActive = false, _shieldActive = false;
     [SerializeField]
     private GameObject _tripleShotPrefab, _explosionPrefab;
     private GameObject _shieldVisualizer;
-    [SerializeField]
-    private int _score;
     private UIManager _uiManager;
     private GameManager _gameManager;
     [SerializeField]
@@ -35,7 +32,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         // Current pos = Start pos
-        transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _shieldVisualizer = transform.Find("PlayerShield").gameObject;
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -49,20 +45,22 @@ public class Player : MonoBehaviour
         if (_gameManager == null) Debug.LogError("GameManager is null");
         if (_laserShotAudioSource == null) Debug.LogError("Audio is null");
         else _laserShotAudioSource.clip = _laserShotAudioClip;
+        if (! _gameManager.GetIsCoopMode()) transform.position = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         CalculateMovement();
-
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire) FireLaser();
+        KeyCode shootKey = _isPlayerOne ? KeyCode.Space : KeyCode.Return;
+        if (Input.GetKeyDown(shootKey) && Time.time > _nextFire) FireLaser();
     }
 
     void CalculateMovement()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        string inputStringEnd = _isPlayerOne ? "_P1" : "_P2";
+        float horizontalInput = Input.GetAxis("Horizontal" + inputStringEnd);
+        float verticalInput = Input.GetAxis("Vertical" + inputStringEnd);
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
         transform.Translate(direction * _speed * Time.deltaTime);

@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
 
     private bool _isGameOver = false;
+    [SerializeField]
+    private bool _isCoopMode;
     private UIManager _uiManager;
 
     void Start() {
@@ -31,4 +33,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public bool GetIsCoopMode() {return _isCoopMode;}
 }
