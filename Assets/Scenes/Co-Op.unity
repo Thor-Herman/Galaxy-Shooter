@@ -175,7 +175,7 @@ PrefabInstance:
     - target: {fileID: 8381414899081586821, guid: 758beedad5edc4249a8301891d760b54,
         type: 3}
       propertyPath: _isPlayerOne
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381414899081586822, guid: 758beedad5edc4249a8301891d760b54,
         type: 3}
@@ -261,6 +261,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8381414899081586821, guid: 758beedad5edc4249a8301891d760b54,
+        type: 3}
+      propertyPath: _isPlayerOne
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8381414899081586822, guid: 758beedad5edc4249a8301891d760b54,
         type: 3}
       propertyPath: m_Color.b
@@ -1342,6 +1347,9 @@ MonoBehaviour:
   _minWaitTimePowerUp: 5
   _maxWaitTimePowerUp: 10
   _spawnRoutinesDelay: 3
+  _spawnTimeDecreaseInterval: 5
+  _spawnTimeDecreaseValue: 0.5
+  _minimumSpawnDelay: 0.5
 --- !u!4 &1307439001
 Transform:
   m_ObjectHideFlags: 0

@@ -1094,6 +1094,9 @@ MonoBehaviour:
   _minWaitTimePowerUp: 5
   _maxWaitTimePowerUp: 10
   _spawnRoutinesDelay: 3
+  _spawnTimeDecreaseInterval: 4
+  _spawnTimeDecreaseValue: 1
+  _minimumSpawnDelay: 0.5
 --- !u!4 &1307439001
 Transform:
   m_ObjectHideFlags: 0
