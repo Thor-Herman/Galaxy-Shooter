@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _powerUps;
     [SerializeField]
-    private float _minWaitTimePowerUp, _maxWaitTimePowerUp, _spawnRoutinesDelay = 3.0f;
+    private float _minWaitTimePowerUp, _maxWaitTimePowerUp, _spawnRoutinesDelay = 3.0f, _spawnTimeDecreaseInterval = 5f, _spawnTimeDecreaseValue = 0.5f, _minimumSpawnDelay = 0.5f;
     private float _enemyRespawnTime = 5.0f;
     private bool _stopSpawning = false;
 
@@ -49,13 +49,15 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    IEnumerator IncreaseDifficultyRoutine() {
+    IEnumerator IncreaseDifficultyRoutine()
+    {
         yield return new WaitForSeconds(_spawnRoutinesDelay);
-        while (_enemyRespawnTime == 0.5f && !_stopSpawning) {
-            yield return new WaitForSeconds(7);
-            _enemyRespawnTime -= 0.5f;
-            if (_enemyRespawnTime < 0.5f) _enemyRespawnTime = 0.5f;
-        }   
+        while (_enemyRespawnTime >= _minimumSpawnDelay && !_stopSpawning)
+        {
+            yield return new WaitForSeconds(_spawnTimeDecreaseInterval * 2);
+            _enemyRespawnTime -= _spawnTimeDecreaseValue;
+            if (_enemyRespawnTime < _minimumSpawnDelay) _enemyRespawnTime = _minimumSpawnDelay;
+        }
     }
 
     Vector3 GetPosToSpawn()
